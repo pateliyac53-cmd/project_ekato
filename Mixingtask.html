@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mixing Tasks</title>
+
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    /* Hero / banner for Mixing Tasks */
+    .mixing-hero {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      display: flex;
+      align-items: flex-start;
+      background-image: url("https://www.ekato.com/wp-content/uploads/2021/01/Ruehraufgaben.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+    }
+
+    .mixing-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+          rgba(0, 18, 28, 0.18) 0%,
+          rgba(255, 255, 255, 0.06) 35%,
+          rgba(255, 255, 255, 0.06) 65%,
+          rgba(0, 18, 28, 0.06) 100%);
+      pointer-events: none;
+    }
+
+    .mixing-hero .title-card {
+      position: relative;
+      z-index: 2;
+      margin: 72px 0 0 72px;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 28px 36px;
+      max-width: 760px;
+      box-shadow: 0 10px 30px rgba(5, 20, 30, 0.12);
+      border-radius: 2px;
+      backdrop-filter: blur(2px);
+    }
+
+    .mixing-hero .brand {
+      display: block;
+      color: #0a3950;
+      font-weight: 700;
+      letter-spacing: 1px;
+      font-size: 14px;
+      margin-bottom: 8px;
+      opacity: 0.95;
+    }
+
+    .mixing-hero h1 {
+      margin: 0;
+      color: #0a3950;
+      font-size: 64px;
+      line-height: 1.02;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Header / TOC Row */
+    .header {
+      position: static;
+      background: #ffffff;
+      padding: 32px 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+      z-index: 10;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .header-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .header-container::before {
+      content: "Table of Contents";
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b6f47;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-decoration: none;
+      color: #7a8a8f;
+      background: transparent;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: "▼";
+      font-size: 10px;
+      color: #bcc4c7;
+      margin-left: 12px;
+    }
+
+    nav a:hover {
+      color: #8b6f47;
+      background: transparent;
+      transform: none;
+    }
+
+    nav a.active {
+      color: #8b6f47;
+      background: transparent;
+      font-weight: 600;
+    }
+
+    nav a.active::after {
+      color: #8b6f47;
+    }
+
+    nav a:last-child {
+      border-bottom: none;
+    }
+
+    /* Main content wrapper */
+    .mainBody {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 20px;
+      background: #ffffff;
+    }
+
+    /* Generic section styles */
+    .mainBody>section {
+      background: #ffffff;
+      margin: 0 0 40px 0;
+      padding: 0;
+      max-width: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      transition: background-color 0.5s ease;
+    }
+
+    .mainBody>section.highlight {
+      background-color: #fff7cc;
+    }
+
+    /* First content section */
+    .FirstContent {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .heading-content {
+      font-size: 40px;
+      font-weight: 600;
+      color: #003b66;
+      margin-bottom: 16px;
+    }
+
+    .paraghraph-content {
+      font-size: 18px;
+      line-height: 1.75;
+      color: #344a50;
+      text-align: center;
+      max-width: 850px;
+      margin: 0 auto 28px;
+      letter-spacing: 0.56px;
+    }
+
+    .contact-us {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #003366;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.3s ease, transform 0.12s ease;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .contact-us:hover {
+      background: #00509e;
+      transform: translateY(-2px);
+    }
+
+    /* Table of contents section */
+    .generation {
+      background: #f9fafb;
+      padding: 32px;
+      border-radius: 8px;
+      margin-bottom: 48px;
+    }
+
+    .generation h4 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #0a3950;
+      margin: 0 0 24px;
+    }
+
+    /* Content sections 2-6 */
+    .mainBody-content-2,
+    .mainBody-content-3,
+    .mainBody-content-4,
+    .mainBody-content-5,
+    .mainBody-content-6 {
+      max-width: 100%;
+      margin: 0 0 48px 0;
+      padding: 0;
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .mainBody-content-2 .hero-intro,
+    .mainBody-content-3 .hero-intro,
+    .mainBody-content-4 .hero-intro,
+    .mainBody-content-5 .hero-intro,
+    .mainBody-content-6 .hero-intro {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+      color: #2f4a52;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .heading-content-2,
+    .heading-content-3,
+    .heading-content-4,
+    .heading-content-5,
+    .heading-content-6 {
+      font-size: 30px;
+      font-weight: 600;
+      color: #003b66;
+      margin: 0 0 24px 0;
+      text-align: left;
+    }
+
+    .paraghraph-1,
+    .paraghraph-3,
+    .paraghraph-4,
+    .paraghraph-5,
+    .paraghraph-6 {
+      font-size: 16px;
+      line-height: 1.75;
+      color: #344a50;
+      text-align: justify;
+      margin: 0 0 18px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .mainBody-content-2 p,
+    .mainBody-content-3 p,
+    .mainBody-content-4 p,
+    .mainBody-content-5 p,
+    .mainBody-content-6 p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: #344a50;
+      text-align: justify;
+      margin: 0 0 18px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .mainBody-content-2 p:last-child,
+    .mainBody-content-3 p:last-child,
+    .mainBody-content-4 p:last-child,
+    .mainBody-content-5 p:last-child,
+    .mainBody-content-6 p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Questions sections */
+    .Blending-questions,
+    .Mixing-solids-questions,
+    .Solid-Liquid-questions,
+    .Liquid-Liquid-questions,
+    .Gas-Liquid-questions {
+      background: #f7fbfc;
+      padding: 24px;
+      border-radius: 8px;
+      margin-top: 24px;
+    }
+
+    .Blending-questions h4,
+    .Mixing-solids-questions h4,
+    .Solid-Liquid-questions h4,
+    .Liquid-Liquid-questions h4,
+    .Gas-Liquid-questions h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0a3950;
+      margin: 0 0 16px 0;
+    }
+
+    .Blending-questions ul,
+    .Mixing-solids-questions ul,
+    .Solid-Liquid-questions ul,
+    .Liquid-Liquid-questions ul,
+    .Gas-Liquid-questions ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .Blending-questions li,
+    .Mixing-solids-questions li,
+    .Solid-Liquid-questions li,
+    .Liquid-Liquid-questions li,
+    .Gas-Liquid-questions li {
+      font-size: 15px;
+      color: #344a50;
+      padding: 8px 0 8px 24px;
+      position: relative;
+      margin: 0;
+    }
+
+    .Blending-questions li::before,
+    .Mixing-solids-questions li::before,
+    .Solid-Liquid-questions li::before,
+    .Liquid-Liquid-questions li::before,
+    .Gas-Liquid-questions li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #0a3950;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    .box-wrap,
+    .row,
+    .col-lg-8 {
+      width: 100%;
+    }
+
+    /* Form styles */
+    .form {
+      max-width: 800px;
+      margin: 60px auto 0;
+      padding: 48px 20px;
+      background: #ffffff;
+    }
+
+    .form h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #003b66;
+      margin: 0 0 32px;
+      text-align: center;
+    }
+
+    .form form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0a3950;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .form label.required::after {
+      content: " *";
+      color: #d32f2f;
+      font-weight: bold;
+    }
+
+    .form input[type="text"],
+    .form input[type="email"],
+    .form select,
+    .form textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #344a50;
+      border: 1px solid #d0d7dc;
+      border-radius: 6px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      background: #ffffff;
+    }
+
+    .form input[type="text"]:focus,
+    .form input[type="email"]:focus,
+    .form select:focus,
+    .form textarea:focus {
+      outline: none;
+      border-color: #0a3950;
+      box-shadow: 0 0 0 3px rgba(10, 57, 80, 0.1);
+    }
+
+    .form input[type="text"]::placeholder,
+    .form input[type="email"]::placeholder,
+    .form textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    .form select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230a3950' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 32px;
+    }
+
+    .form textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.5;
+    }
+
+    /* Consent checkbox styles */
+    .consent-container {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin: 20px 0;
+      padding: 16px;
+      background: #f7fbfc;
+      border-radius: 6px;
+    }
+
+    .form input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: #0a3950;
+    }
+
+    .consent-text {
+      font-size: 13px;
+      color: #344a50;
+      line-height: 1.6;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .consent-text b {
+      font-weight: 600;
+      color: #0a3950;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      padding: 12px 28px;
+      background: #0a3950;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.12s ease, box-shadow 0.3s ease;
+      margin-top: 12px;
+    }
+
+    .submit-btn:hover {
+      background: #002147;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 35, 50, 0.15);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1100px) {
+      .mixing-hero {
+        height: 460px;
+      }
+
+      .mixing-hero .title-card {
+        margin: 56px 0 0 48px;
+        padding: 22px 28px;
+      }
+
+      .mixing-hero h1 {
+        font-size: 48px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .mixing-hero {
+        height: 420px;
+        background-position: center 30%;
+      }
+
+      .mixing-hero .title-card {
+        margin: 36px 20px 0 20px;
+        max-width: calc(100% - 40px);
+      }
+
+      .mixing-hero h1 {
+        font-size: 34px;
+      }
+
+      .mixing-hero .brand {
+        font-size: 12px;
+      }
+
+      .header {
+        padding: 24px 16px;
+      }
+
+      .header-container::before {
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+
+      .header-content {
+        gap: 0.3rem;
+      }
+
+      nav a {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.9rem;
+      }
+
+      .heading-content {
+        font-size: 32px;
+      }
+
+      .heading-content-2,
+      .heading-content-3,
+      .heading-content-4,
+      .heading-content-5,
+      .heading-content-6 {
+        font-size: 28px;
+        margin-bottom: 18px;
+      }
+
+      .paraghraph-content,
+      .paraghraph-1,
+      .paraghraph-3,
+      .paraghraph-4,
+      .paraghraph-5,
+      .paraghraph-6 {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .mainBody-content-2 p,
+      .mainBody-content-3 p,
+      .mainBody-content-4 p,
+      .mainBody-content-5 p,
+      .mainBody-content-6 p {
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .Blending-questions h4,
+      .Mixing-solids-questions h4,
+      .Solid-Liquid-questions h4,
+      .Liquid-Liquid-questions h4,
+      .Gas-Liquid-questions h4 {
+        font-size: 16px;
+      }
+
+      .Blending-questions li,
+      .Mixing-solids-questions li,
+      .Solid-Liquid-questions li,
+      .Liquid-Liquid-questions li,
+      .Gas-Liquid-questions li {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mixing-hero {
+        height: 320px;
+        background-position: center 40%;
+      }
+
+      .mixing-hero .title-card {
+        padding: 16px;
+        margin: 28px 12px 0 12px;
+      }
+
+      .mixing-hero h1 {
+        font-size: 26px;
+      }
+
+      .mainBody {
+        padding: 24px 12px;
+      }
+
+      .heading-content {
+        font-size: 22px;
+      }
+
+      .paraghraph-content {
+        font-size: 14px;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .heading-content-2,
+      .heading-content-3,
+      .heading-content-4,
+      .heading-content-5,
+      .heading-content-6 {
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .paraghraph-1,
+      .paraghraph-3,
+      .paraghraph-4,
+      .paraghraph-5,
+      .paraghraph-6 {
+        font-size: 13px;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .mainBody-content-2 p,
+      .mainBody-content-3 p,
+      .mainBody-content-4 p,
+      .mainBody-content-5 p,
+      .mainBody-content-6 p {
+        font-size: 13px;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .generation {
+        padding: 18px;
+      }
+
+      .generation h4 {
+        font-size: 18px;
+      }
+
+      .Blending-questions,
+      .Mixing-solids-questions,
+      .Solid-Liquid-questions,
+      .Liquid-Liquid-questions,
+      .Gas-Liquid-questions {
+        padding: 18px;
+      }
+
+      .Blending-questions h4,
+      .Mixing-solids-questions h4,
+      .Solid-Liquid-questions h4,
+      .Liquid-Liquid-questions h4,
+      .Gas-Liquid-questions h4 {
+        font-size: 14px;
+      }
+
+      .Blending-questions li,
+      .Mixing-solids-questions li,
+      .Solid-Liquid-questions li,
+      .Liquid-Liquid-questions li,
+      .Gas-Liquid-questions li {
+        font-size: 12px;
+        padding-left: 20px;
+      }
+
+      header {
+        padding: 0.5rem;
+      }
+
+      .header-container {
+        padding-top: 5px;
+        padding-left: 5px;
+      }
+
+      nav a {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Mixing Tasks hero section -->
+  <section class="mixing-hero" role="region" aria-label="Mixing Tasks hero">
+    <div class="title-card">
+      <span class="brand">EKATO</span>
+      <h1>Mixing Tasks</h1>
+    </div>
+  </section>
+
+
+
+  <!-- Main content wrapper -->
+  <div class="mainBody">
+    <!-- First content section -->
+    <section class="FirstContent">
+      <div class="hero-intro">
+        <h3 class="heading-content">The Key to the Optimum Mixing Solution</h3>
+        <p class="paraghraph-content">
+          Precise knowledge or analysis of the required basic mixing tasks are always the first step towards the
+          optimum mixing technology solution. Based on the given requirements for the mixing process and determination
+          of the product characterization, our specialists work out the optimum solution, tailored to the needs of our
+          customers.
+        </p>
+      </div>
+      <a href="#contact" class="contact-us">Contact Us →</a>
+    </section>
+
+    <!-- Header / TOC -->
+    <div class="header">
+      <div class="header-container" id="toc-section">
+        <nav class="header-content" role="navigation" aria-label="Table of contents">
+          <a href="#blending" class="toc-link">Blending</a>
+          <a href="#mixing-solids" class="toc-link">Mixing Solids</a>
+          <a href="#solid-liquid" class="toc-link">Solid-Liquid</a>
+          <a href="#liquid-liquid" class="toc-link">Liquid-Liquid</a>
+          <a href="#gas-liquid" class="toc-link">Gas-Liquid</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Blending/Homogeneity -->
+    <section class="mainBody-content-2" id="blending">
+      <div class="hero-intro">
+        <h3 class="heading-content-2">Blending/Homogeneity</h3>
+        <p class="paraghraph-1">
+          The aim of every mixing process is to achieve the homogeneity required for the process in the entire
+          contained volume. When homogenizing, it is important to reduce the differences in concentration and
+          temperature that arise e.g. by product additions, mass transfers, chemical reactions or heat transfer. This
+          mixing task occurs in single-phase and multi-phase systems.
+        </p>
+        <p>
+          In order to reduce energy consumption or increase productivity during homogenization, it is necessary to
+          clarify whether the mixing time is a limiting factor. For low-viscosity liquids, the mixing time is in the
+          order of minutes and therefore often not critical.
+        </p>
+        <p>
+          The situation is different with highly viscous media. Here, the rheology of the medium determines the mixing
+          process. Here special, mostly wall-mounted agitation systems are required in order to achieve mixing times
+          suitable for the process.
+        </p>
+      </div>
+
+      <section class="Blending-questions">
+        <h4>What is to be considered?</h4>
+        <ul>
+          <li>Viscosity / rheology of the medium</li>
+          <li>Geometry of the vessel</li>
+          <li>Power input of the agitation system, especially with scale-up</li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Mixing Solids -->
+    <section class="mainBody-content-3" id="mixing-solids">
+      <div class="hero-intro">
+        <h3 class="heading-content-3">Mixing Solids</h3>
+        <p class="paraghraph-3">
+          When mixing solids, especially bulk materials, determining the mixing quality plays a central role. Knowledge
+          of the statistical principles can be used to derive assistance for practical application, which ensures an
+          effective procedure for determining the mixing quality. The scale-up of mixing times obtained on a laboratory
+          scale to the production scale is also of great importance in this context.
+        </p>
+      </div>
+
+      <section class="Mixing-solids-questions">
+        <h4>What is to be considered?</h4>
+        <ul>
+          <li>Grain/particle size distribution and crystal shape</li>
+          <li>Moisture content and flow behavior</li>
+          <li>Avoidance of contamination</li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Solid-Liquid Suspensions -->
+    <section class="mainBody-content-4" id="solid-liquid">
+      <div class="hero-intro">
+        <h3 class="heading-content-4">Solid-Liquid Suspensions</h3>
+        <p class="paraghraph-4">
+          A suspension is understood to be a heterogeneous mixture of substances, which consists of a liquid and solids
+          distributed in it. Suspending is the process of bringing these two substances together. A suspension agitator
+          can be operated with different objectives. For example, for the dissolution of solids, the fluidization of
+          the solid near the bottom can be sufficient, while in continuous processes, e.g. in crystallization or ore
+          leaching, the highest demands are placed on the homogeneity of the suspension.
+        </p>
+      </div>
+
+      <section class="Solid-Liquid-questions">
+        <h4>What is to be considered?</h4>
+        <ul>
+          <li>Process requirement - suspend completely or homogeneously</li>
+          <li>Difference in density fluid - solid</li>
+          <li>Particle size of the solid</li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Liquid-Liquid Dispersion -->
+    <section class="mainBody-content-5" id="liquid-liquid">
+      <div class="hero-intro">
+        <h3 class="heading-content-5">Liquid-Liquid Dispersion</h3>
+        <p class="paraghraph-5">
+          Liquid-liquid dispersions are understood as mixtures of two or more liquids that are immiscible with one
+          another. Such mixtures are made and used for many industrial applications. In the chemical industry, liquids
+          are often mixed with one another temporarily for the targeted control of extractions or reactions. Long-term
+          stable dispersions are also produced, for example in the pharmaceutical, cosmetic or food industries. Such
+          long-term stable dispersions of liquids are referred to as emulsions.
+        </p>
+      </div>
+
+      <section class="Liquid-Liquid-questions">
+        <h4>What is to be considered?</h4>
+        <ul>
+          <li>Process requirement - suspend completely or homogeneously</li>
+          <li>Density differences / interfacial tension of the liquid phases</li>
+          <li>Energy input from the agitation system</li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Gas-Liquid Dispersion -->
+    <section class="mainBody-content-6" id="gas-liquid">
+      <div class="hero-intro">
+        <h3 class="heading-content-6">Gas-Liquid Dispersion</h3>
+        <p class="paraghraph-6">
+          The gassing of liquids is of high importance in the chemical and pharmaceutical industries and in
+          biotechnology. The aim here is to achieve the highest possible mass transfer between the dispersed gas and
+          the liquid. Stirred reactors with gassing systems are used for chemical syntheses such as hydrogenation or
+          oxidation, as well as for fermentation.
+        </p>
+      </div>
+
+      <section class="Gas-Liquid-questions">
+        <h4>What is to be considered?</h4>
+        <ul>
+          <li>Increase in throughput and selectivity</li>
+          <li>Same conversion rate at lower pressures and / or temperatures</li>
+          <li>Savings in total cost of ownership</li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Contact form section -->
+    <div class="form">
+      <h1>Industries contact form</h1>
+
+      <form>
+        <label class="required">Please choose your industry</label>
+        <select>
+          <option selected>Chemicals</option>
+          <option>Pharmaceuticals</option>
+          <option>Food</option>
+          <option>Energy</option>
+          <option>Plastics</option>
+          <option>Cosmetic</option>
+          <option>Minerals processing</option>
+          <option>Flue Gas Desulfurization</option>
+          <option>Petrochemical</option>
+          <option>Biotechnology</option>
+          <option>Biofuels</option>
+          <option>Battery Recycling</option>
+          <option>Other</option>
+        </select>
+
+        <label class="required">Company</label>
+        <input type="text" placeholder="Enter your company name" />
+
+        <label>Industry</label>
+        <select>
+          <option selected>Select an Industry</option>
+          <option>Chemical</option>
+          <option>Cosmetics</option>
+          <option>pharmaceutical</option>
+          <option>Energy & Enviroment</option>
+          <option>Hydrometallurgy</option>
+          <option>Biotechnology</option>
+          <option>Food</option>
+        </select>
+
+        <label>Salutation</label>
+        <select>
+          <option selected>Ms.</option>
+          <option>Mr.</option>
+          <option>Dr.</option>
+          <option>Prof.</option>
+        </select>
+        <title>Contact Form Example</title>
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+        <div class="name">
+
+          <form>
+            <label class="required">First Name</label>
+            <input type="text" name="first-name" placeholder="">
+
+            <label class="required">Last Name</label>
+            <input type="text" name="last-name" placeholder="">
+
+            <label>Country</label>
+            <select name="country">
+              <option selected>United States</option>
+              <option>Afghanistan</option>
+              <option>Aland Islands</option>
+              <option>Albenia</option>
+              <option>Algeria</option>
+              <option>American Samoa</option>
+              <option>Andorra</option>
+              <option>Angola</option>
+              <option>Anguilla</option>
+              <option>Antigua and Barbuda</option>
+              <option>Argentina</option>
+              <option>Armenia</option>
+              <option>Aruba</option>
+              <option>Australia</option>
+              <option>Austria</option>
+              <option>Azerbaijan</option>
+              <option>Bahamas</option>
+              <option>Bahrain</option>
+              <option>Bangladesh</option>
+              <option>Barbados</option>
+              <option>Belarus</option>
+              <option>Belgium</option>
+              <option>Belize</option>
+              <option>Benin</option>
+              <option>Bermuda</option>
+              <option>Bhutan</option>
+              <option>Bolivia</option>
+              <option>Bonaire</option>
+              <option>Bosnia</option>
+              <option>Botswana</option>
+              <option>Bouvet Island</option>
+              <option>Brazil</option>
+              <option>British Indian Ocean Territory</option>
+              <option>Brunei Darussalam</option>
+              <option>Bulgaria</option>
+              <option>Burkina Faso</option>
+              <option>Cabo Verde</option>
+              <option>Cambodia</option>
+              <option>Cameroon</option>
+              <option>Canada</option>
+              <option>Cayman Islands</option>
+              <option>Central African Republic</option>
+              <option>Chad</option>
+              <option>Chile</option>
+              <option>China</option>
+              <option>Christmas Island</option>
+              <option>Cocos Islands</option>
+              <option>Colombia</option>
+              <option>Comoros</option>
+              <option>Congo</option>
+              <option>Cook Islands</option>
+              <option>Costa Rica</option>
+              <option>Cote D'lvoire</option>
+              <option>Croatia</option>
+              <option>Cuba</option>
+              <option>Curacao</option>
+              <option>Cyprus</option>
+              <option>Czechia</option>
+              <option>Denmark</option>
+              <option>Djibouti</option>
+              <option>Dominican Republic</option>
+              <option>Ecuador</option>
+              <option>Egypt</option>
+              <option>El Salvador</option>
+              <option>England</option>
+              <option>Equatorial Guinea</option>
+              <option>Eritrea</option>
+              <option>Estonia</option>
+              <option>Eswatini</option>
+              <option>Ethiopia</option>
+              <option>Falkland Islands</option>
+              <option>Fiji</option>
+              <option>Finland</option>
+              <option>France</option>
+              <option>French Guiana</option>
+              <option>French Polynesia</option>
+              <option>French Southern Territories</option>
+              <option>Gabon</option>
+              <option>Gambia</option>
+              <option>Georgia</option>
+              <option>Germany</option>
+              <option>Ghana</option>
+              <option>Gibraltr</option>
+              <option>Greece</option>
+              <option>Greenland</option>
+              <option>Grenada</option>
+              <option>Guadeloupe</option>
+              <option>Guam</option>
+              <option>Guatemala</option>
+              <option>Guinea</option>
+              <option>Guyana</option>
+              <option>Haiti</option>
+              <option>Heard and McDonald Islands</option>
+              <option>Holy City</option>
+              <option>Honduras</option>
+              <option>Hong Kong</option>
+              <option>Hungary</option>
+              <option>Iceland</option>
+              <option>India</option>
+              <option>Indonesia</option>
+              <option>Iran</option>
+              <option>Iraq</option>
+              <option>Ireland</option>
+              <option>Isle of Man</option>
+              <option>Israel</option>
+              <option>Italy</option>
+              <option>Jamaica</option>
+              <option>Japan</option>
+              <option>Jersey</option>
+              <option>Jordan</option>
+              <option>Kazakhstan</option>
+              <option>Kenya</option>
+              <option>Kiribati</option>
+              <option>Korea</option>
+              <option>Kuwait</option>
+              <option>Kyrgyzstan</option>
+              <option>Lao People's Democratic</option>
+              <option>Latvia</option>
+              <option>Lebanon</option>
+              <option>Lesotho</option>
+              <option>Liberia</option>
+              <option>Libya</option>
+              <option>Liechtenstein</option>
+              <option>Lithuania</option>
+              <option>Luxembourg</option>
+              <option>Macao</option>
+              <option>Madagascar</option>
+              <option>Malawi</option>
+              <option>Malaysia</option>
+              <option>Maldives</option>
+              <option>Mali</option>
+              <option>Malta</option>
+              <option>Marshall Islands</option>
+              <option>Mauritius</option>
+              <option>Mayotte</option>
+              <option>Micronesia</option>
+              <option>Moldova</option>
+              <option>Monaco</option>
+              <option>Mongolia</option>
+              <option>Montserrat</option>
+              <option>Morocco</option>
+              <option>Mozambique</option>
+              <option>Myanmar</option>
+              <option>Namibia</option>
+              <option>Nauru</option>
+              <option>Nepal</option>
+              <option>Netherlands</option>
+              <option>New Caledonia</option>
+              <option>New Zealand</option>
+              <option>Nicaragua</option>
+              <option>Niger</option>
+              <option>Nigeria</option>
+              <option>Niue</option>
+              <option>Norfolk Island</option>
+              <option>North Macedonia</option>
+              <option>Northern Mariana Islands</option>
+              <option>Norway</option>
+              <option>Oman</option>
+              <option>Pakistan</option>
+              <option>Palau</option>
+              <option>Palestine</option>
+              <option>Panama</option>
+              <option>Papua New Guinea</option>
+              <option>Paraguay</option>
+              <option>Peru</option>
+              <option>Philippines</option>
+              <option>Pitcairn</option>
+              <option>Poland</option>
+              <option>Portugal</option>
+              <option>Puerto Rico</option>
+              <option>Qatar</option>
+              <option>Republic of Kosovo</option>
+              <option>Reunion</option>
+              <option>Romenia</option>
+              <option>Russian Federation</option>
+              <option>Rwanda</option>
+              <option>Saint Martin</option>
+              <option>Saint Barthelemy</option>
+              <option>Saint Helena</option>
+              <option>Saint Kitts and Nevis</option>
+              <option>Saint Lucia</option>
+              <option>Saint Pierre</option>
+              <option>Saint Vincent</option>
+              <option>Samoa</option>
+              <option>San Marino</option>
+              <option>Sao Tome</option>
+              <option>Saudi Arabia</option>
+              <option>Senegal</option>
+              <option>Serbia</option>
+              <option>Seychelles</option>
+              <option>Sierra Leone</option>
+              <option>Singapore</option>
+              <option>Sint Maarten</option>
+              <option>Slovakia</option>
+              <option>Slovenia</option>
+              <option>Solomon Islands</option>
+              <option>Somaliya</option>
+              <option>South Africa</option>
+              <option>South Georgia</option>
+              <option>South Sudan</option>
+              <option>Spain</option>
+              <option>Sri Lanka</option>
+              <option>Sudan</option>
+              <option>Svalbard</option>
+              <option>Sweden</option>
+              <option>Switzerland</option>
+              <option>Syrian</option>
+              <option>Taiwan</option>
+              <option>Tajikistan</option>
+              <option>Tanzania</option>
+              <option>Thailand</option>
+              <option>Timor-Leste</option>
+              <option>Togo</option>
+              <option>Trinidad and Todago</option>
+              <option>Tunisia</option>
+              <option>Turkey</option>
+              <option>Turkmenistan</option>
+              <option>Turk and Caicos Islands</option>
+              <option>Tuvalu</option>
+              <option>Uganda</option>
+              <option>Ukraine</option>
+              <option>United Arab Emirates</option>
+              <option>United Kingdom</option>
+              <option>United States</option>
+              <option>United States Minor Outlying Islands</option>
+              <option>Uruguay</option>
+              <option>Uzbekistan</option>
+              <option>Vanuatu</option>
+              <option>Venezuela</option>
+              <option>Vietnam</option>
+              <option>Virgin Islands (British)</option>
+              <option>Virgin Islands (U.S.)</option>
+              <option>Wallis and Futuna</option>
+              <option>Western Sahara</option>
+              <option>Yemen</option>
+              <option>Zambia</option>
+              <option>Zimbabwe</option>
+            </select>
+
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="">
+
+            <label class="required">E-Mail</label>
+            <input type="email" name="email" placeholder="">
+          </form>
+          <title>Message Field Example</title>
+
+          <!-- Google Font -->
+          <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+          <form>
+            <label1 class="required">Message</label1>
+            <textarea name="message" placeholder=""></textarea>
+          </form>
+          <title>Declaration of Consent Form</title>
+
+          <!-- Google Font -->
+          <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+          <form>
+            <div class="consent-container">
+              <input type="checkbox" id="consent" name="consent" required>
+              <label for="consent" class="consent-text">
+                <b>Declaration of consent:</b> By submitting the contact request, you
+                consent to EKATO
+                processing
+                your data in accordance with the EKATO GROUP Privacy Policy. You can revoke
+                your consent at any
+                time.
+              </label>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+          </form>
+
+        </div>
+
+        <script>
+          // Smooth scroll highlight + active link
+          const links = document.querySelectorAll("nav a");
+          const sections = document.querySelectorAll("[id]");
+
+          links.forEach(link => {
+            link.addEventListener("click", e => {
+              e.preventDefault();
+              const targetId = link.getAttribute("href").substring(1);
+              const targetSection = document.getElementById(targetId);
+
+              if (targetSection) {
+                targetSection.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                sections.forEach(sec => sec.classList.remove("highlight"));
+                targetSection.classList.add("highlight");
+                setTimeout(() => targetSection.classList.remove("highlight"), 1000);
+
+                links.forEach(l => l.classList.remove("active"));
+                link.classList.add("active");
+              }
+            });
+          });
+
+          // Update active link on scroll
+          window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(section => {
+              const sectionTop = section.offsetTop - 120;
+              if (pageYOffset >= sectionTop) {
+                current = section.getAttribute("id");
+              }
+            });
+            links.forEach(link => {
+              link.classList.remove("active");
+              if (link.getAttribute("href").includes(current)) {
+                link.classList.add("active");
+              }
+            });
+          });
+        </script>
+</body>
+
+</html>
